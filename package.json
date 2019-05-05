@@ -35,9 +35,10 @@
     "chai": "^3.2.0",
     "copyfiles": "^1.0.0",
     "css-loader": "^0.23.0",
-    "enzyme": "^3.3.0",
+    "enzyme": "^3.9.0",
     "enzyme-adapter-react-15": "^1.0.5",
     "enzyme-adapter-react-15.4": "^1.0.5",
+    "enzyme-adapter-react-16": "^1.12.1",
     "eslint": "^3.0.0",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^6.0.0",
@@ -80,7 +81,8 @@
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "react-fontawesome": "^1.6.1"
+    "react-fontawesome": "^1.6.1",
+    "react-native": "^0.59.5"
   },
   "gh-pages-deploy": {
     "staticpath": "dist",

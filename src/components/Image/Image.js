@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import './Image.scss';
 
+
 class Image extends React.Component {
   static propTypes = {
     dto: PropTypes.object,
@@ -13,7 +14,8 @@ class Image extends React.Component {
     super(props);
     this.calcImageSize = this.calcImageSize.bind(this);
     this.state = {
-      size: 200
+      size: 200,
+      transformVal : 1
     };
   }
 
@@ -35,6 +37,11 @@ class Image extends React.Component {
     return `https://farm${dto.farm}.staticflickr.com/${dto.server}/${dto.id}_${dto.secret}.jpg`;
   }
 
+  handleFlip(){
+    var newDeg = this.state.transformVal * -1 ;
+    this.setState({transformVal:newDeg});
+  }
+
   render() {
     return (
       <div
@@ -42,11 +49,14 @@ class Image extends React.Component {
         style={{
           backgroundImage: `url(${this.urlFromDto(this.props.dto)})`,
           width: this.state.size + 'px',
-          height: this.state.size + 'px'
+          height: this.state.size + 'px',
+          transform: 'scale('+this.state.transformVal+',1)'
+          
         }}
+      
         >
         <div>
-          <FontAwesome className="image-icon" name="arrows-alt-h" title="flip"/>
+          <FontAwesome className="image-icon" name="arrows-alt-h" title="flip" onClick = {() => this.handleFlip()}/>
           <FontAwesome className="image-icon" name="clone" title="clone"/>
           <FontAwesome className="image-icon" name="expand" title="expand"/>
         </div>
