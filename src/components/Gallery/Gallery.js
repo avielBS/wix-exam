@@ -13,8 +13,17 @@ class Gallery extends React.Component {
     super(props);
     this.state = {
       images: [],
-      galleryWidth: this.getGalleryWidth()
+      galleryWidth: this.getGalleryWidth(),
+      favoriteList : []
     };
+
+    this.cloneImage = this.cloneImage.bind(this);
+    this.addToFavoriteList = this.addToFavoriteList.bind(this);
+
+
+    if (localStorage.hasOwnProperty('galleryState')) {
+      this.state = JSON.parse(localStorage.getItem('galleryState'));
+    }
   }
 
   getGalleryWidth(){
@@ -56,11 +65,52 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
+  cloneImage(img){
+
+    let clonedImage = Object.assign({}, img);
+    let tmpImages = this.state.images;
+    let index = tmpImages.findIndex(image =>  image.id == img.id);
+    
+    let id = Math.floor(Math.random() * 50000);
+    clonedImage.id += id;
+    
+    let firstSlice = tmpImages.slice(0, index + 1);
+    let lastSlice = tmpImages.slice(index + 1, tmpImages.length + 1);
+    
+    tmpImages = [...firstSlice, clonedImage, ...lastSlice];
+
+    this.setState(
+      {
+        images: tmpImages
+      });
+  
+  }
+
+  addToFavoriteList(dto){
+    let favoriteImageIndex = this.state.images.findIndex((image) => image.id == dto.id);
+    let tempFavorite = this.state.favoriteList;
+    let favoriteImage = this.state.images[favoriteImageIndex];
+
+    if ( tempFavorite.findIndex(image => image.id == favoriteImage.id) == -1 ){
+      tempFavorite = [... tempFavorite , favoriteImage];
+    }
+    else{
+      let favoriteImageIndexInTemp = tempFavorite.findIndex(image => image.id == favoriteImage.id)
+      tempFavorite = [... tempFavorite.slice(0,favoriteImageIndexInTemp) , ...tempFavorite.slice(favoriteImageIndexInTemp+1,favoriteImageIndexInTemp.length)]
+    }
+    this.setState({ favoriteList: tempFavorite },() => {
+      localStorage.setItem('galleryState', JSON.stringify(this.state));
+    });
+    alert(tempFavorite);
+  }
+
+
+
   render() {
     return (
       <div className="gallery-root">
         {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth} favoriteHandler = {this.addToFavoriteList}/>;
         })}
       </div>
     );
