@@ -51,7 +51,7 @@ class Image extends React.Component {
   }
 
   handleFlip(){
-    var newDeg = this.state.transformVal * -1 ;
+    let newDeg = this.state.transformVal * -1 ;
     this.setState({transformVal:newDeg});
   }
  
@@ -80,6 +80,7 @@ class Image extends React.Component {
   }
 
 
+
   render() {
     return (
       <div
@@ -93,11 +94,14 @@ class Image extends React.Component {
         
         >
         <div>
+          <span>
           <FontAwesome className="image-icon" name="arrows-alt-h" title="flip" onClick = {() => this.handleFlip()}/>
+          </span>
           <FontAwesome className="image-icon" name="clone" title="clone" onClick = {() => this.props.cloneHandler(this.props.dto)} />
           <FontAwesome className="image-icon" name="expand" title="expand" onClick = {() => this.expand()}/>
-          <FontAwesome className="image-icon" name="heart" title="favorie" onClick = {() => this.favoriteFunction(this.props.favoriteHandler,this.props.dto)}
-          style = {{color :  this.state.favorite ? 'red' : ''}} />
+          <FontAwesome className="image-icon" name="star" title="favorie" onClick = {() => this.favoriteFunction(this.props.favoriteHandler,this.props.dto)}
+          style = {{color :  this.state.favorite ? 'yellow' : ''}} />
+          <FontAwesome className="image-icon" name="trash" title="trash" onClick = {() => this.props.deleteHandler(this.props.dto)}  />
 
         </div>
       </div>

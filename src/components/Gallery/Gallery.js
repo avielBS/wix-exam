@@ -20,6 +20,7 @@ class Gallery extends React.Component {
 
     this.cloneImage = this.cloneImage.bind(this);
     this.addToFavoriteList = this.addToFavoriteList.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
 
 
     // if (localStorage.hasOwnProperty('galleryState')) {
@@ -67,25 +68,14 @@ class Gallery extends React.Component {
     this.getImages(props.tag);
   }
 
-  cloneImage(img){
-
-    let clonedImage = Object.assign({}, img);
-    let tmpImages = this.state.images;
-    let index = tmpImages.findIndex(image =>  image.id == img.id);
-    
-    let id = Math.floor(Math.random() * 500000);
-    clonedImage.id += id;
-    
-    let firstSlice = tmpImages.slice(0, index + 1);
-    let lastSlice = tmpImages.slice(index + 1, tmpImages.length + 1);
-    
-    tmpImages = [...firstSlice, clonedImage, ...lastSlice];
-    
-    this.setState(
-      {
-        images: tmpImages
-      });
+  cloneImage(dto){
   
+    let tempImages = this.state.images;
+    let clonedImage = Object.assign({}, dto);
+    let index = tempImages.findIndex(image =>  image.id == dto.id);
+    tempImages.splice(index,0,clonedImage);
+    this.setState({images : tempImages});
+
   }
 
   addToFavoriteList(dto){
@@ -120,14 +110,19 @@ class Gallery extends React.Component {
     }
   }
 
-
+  deleteImage(dto){
+    let tempImages = this.state.images;
+    let index = this.state.images.findIndex((image) => image.id == dto.id );
+    tempImages.splice(index,1);
+    this.setState({images:tempImages});
+  }
 
 
   render() {
     return (
       <div className="gallery-root">
         {this.state.images.map((dto,index) => {
-          return <Image key={index} dto={dto} galleryWidth={this.state.galleryWidth} favoriteHandler = {this.addToFavoriteList}/>;
+          return <Image key={index} dto={dto} galleryWidth={this.state.galleryWidth} cloneHandler={this.cloneImage} favoriteHandler = {this.addToFavoriteList} deleteHandler = {this.deleteImage} />;
         })}
       </div>
     );
