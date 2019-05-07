@@ -15,7 +15,8 @@ class Gallery extends React.Component {
       images: [],
       galleryWidth: this.getGalleryWidth(),
       favoriteList : [],
-      pageNumber : 1
+      pageNumber : 1,
+      tag : props.tag
     };
 
     this.cloneImage = this.cloneImage.bind(this);
@@ -51,7 +52,10 @@ class Gallery extends React.Component {
           res.photos.photo &&
           res.photos.photo.length > 0
         ) {
+          if(this.state.tag == tag)
             this.setState({images: [...this.state.images ,... res.photos.photo] });
+          else
+          this.setState({images: res.photos.photo , tag : tag });
         }
       });
   }
