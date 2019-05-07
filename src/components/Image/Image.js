@@ -24,12 +24,12 @@ class Image extends React.Component {
     this.expand = this.expand.bind(this);
     this.favoriteFunction = this.favoriteFunction.bind(this);
     
-    if (localStorage.hasOwnProperty(this.props.dto.id + '_state')) {
-      this.state = JSON.parse(
-        localStorage.getItem(this.props.dto.id + '_state')
-      );
-    }
-
+    // if (localStorage.hasOwnProperty(this.props.dto.id + '_state')) {
+    //   this.state = JSON.parse(
+    //     localStorage.getItem(this.props.dto.id + '_state')
+    //   );
+    // }
+    localStorage.clear();
   }
 
   calcImageSize() {
@@ -74,7 +74,7 @@ class Image extends React.Component {
     this.setState({
       favorite : this.state.favorite ? false : true
     },
-    () => { localStorage.setItem(this.props.dto.id + '_state', JSON.stringify(this.state)); }
+    //() => { localStorage.setItem(this.props.dto.id + '_state', JSON.stringify(this.state)); }
     );
     func(props);
   }
